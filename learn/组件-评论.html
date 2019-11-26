@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>deconstruction</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.css"/>
+<!--    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+
+</head>
+
+<body>
+
+<div id="app">
+    <cmt-box v-on:func1="loadcomments"></cmt-box>
+    <ul class="list-group">
+        <li class="list-group-item" v-for="item in list" :key="item.id">
+            <span class="badge">commenter: {{item.user}}</span>
+            {{item.content}}
+        </li>
+    </ul>
+
+</div>
+
+<template id="makecomment">
+
+    <div>
+        <div>
+            <label >Commenter:</label>
+            <input type="text" class="form-control" v-model="user">
+        </div>
+
+        <div class="form-group">
+            <label >Comments:</label>
+            <textarea class="form-control" v-model="content"></textarea>
+        </div>
+
+        <div class="form-group">
+            <input type="button" value="Submit" class="btn btn-primary"
+            @click="postComment"
+            >
+        </div>
+    </div>
+</template>
+
+<script>
+    var commentBox = {
+        data(){
+            return{
+                user:'',
+                content:''
+            }
+        },
+        template: '#makecomment',
+        methods:{
+            postComment(){
+                var comment = { id: Date.now(), user: this.user, content: this.content }
+                var list =JSON.parse(localStorage.getItem('cmts')||'[]')
+                list.push(comment)
+                localStorage.setItem('cmts', JSON.stringify(list))
+                this.user = this.content = ''
+                this.$emit('func1')
+            }
+        }
+    };
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
+<script type="text/javascript" src="组件-评论.js">
+</script>
