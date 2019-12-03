@@ -1,10 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <title>deconstruction</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.css"/>
+    <!--    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+    <style>
+        .myclass,.router-link-exact-active {
+            color: aqua;
+            font-style: italic;
+        }
+
+        .v-enter-active, .v-leave-active {
+            transition: all 0.5s ease;
+        }
+        .v-enter, .v-leave-to /* .fade-leave-active below version 2.1.8 */ {
+            transition: opacity 0s;
+            transform: translateX(140px);
+        }
+    </style>
 </head>
 <body>
+<div>
 
+</div>
+    <div id="app">
+        <router-link to="/account" >Account</router-link>
+        <transition  mode="out-in">
+            <router-view></router-view>
+        </transition>
+    </div>
+    <template id="temp">
+        <div>
+
+        <h1>AccountManagement</h1>
+        <router-link to="/account/login" >login</router-link>
+        <router-link to="/account/register" >register</router-link>
+        <transition  mode="out-in">
+            <router-view></router-view>
+        </transition>
+        </div>
+
+    </template>
+
+
+<script>
+    var account = {
+        template:'#temp'
+    }
+
+    var login = {
+        template:'<h1>LoginPage</h1>'
+    }
+    var register = {
+        template:'<h1>RegisterPage</h1>'
+    }
+
+    var routeObj = new VueRouter({
+        routes:[{
+            path:'/account',
+            component:account,
+            children:[
+                {path:'login',component: login},
+                {path:'register',component: register},
+            ]
+        }]
+    })
+
+    var vm = new Vue({
+        el: "#app",
+        data:{},
+        methods:{},
+        router: routeObj,
+        watch:{
+            '$route.path': function (a, b) {
+                console.log(a+"xxxxxxxxxx"+b)
+            }
+        }
+    })
+</script>
 </body>
 </html>

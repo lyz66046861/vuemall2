@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>deconstruction</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.css"/>
+    <!--    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+    <style>
+        .myclass,.router-link-exact-active {
+            color: aqua;
+            font-style: italic;
+        }
+
+        .v-enter-active, .v-leave-active {
+            transition: all 0.5s ease;
+        }
+        .v-enter, .v-leave-to /* .fade-leave-active below version 2.1.8 */ {
+            transition: opacity 0s;
+            transform: translateX(140px);
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+<div id="app">
+    <comp1 :parentmsg ="msg" @func="updMsg"></comp1>
+</div>
+
+<template id="tmp1">
+    <div>
+        <h1>This is template used by {{parentmsg}}</h1>
+        <input type="button" value="Press to send" v-on:click="sendMsg">
+    </div>
+</template>
+
+<script>
+
+    var comp1 = {
+        template: '#tmp1',
+        data(){
+            return {
+                msg: "Internal Affairs"
+            }
+        },
+        methods:{
+            sendMsg(){
+                this.$emit('func',this.msg)
+            }
+        },
+        props: ['parentmsg']
+    }
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            msg: " --> luyizhou"
+        },
+        methods: {
+            updMsg(getdata){
+                this.msg = getdata
+            }
+        },
+        components: {
+            comp1
+        }
+    });
+
+
+</script>
+
+
+
+</body>
+
+</html>
+<!--<script type="text/javascript" src="组件-评论.js">-->
+<!--</script>-->

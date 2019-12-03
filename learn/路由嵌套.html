@@ -28,33 +28,51 @@
 <body>
 
 <div id="app2">
-<!--    <a href="#/login">Loginhref</a>-->
-<!--    <a href="#/register">Register</a>-->
+    <!--    <a href="#/login">Loginhref</a>-->
+    <!--    <a href="#/register">Register</a>-->
 
-<!--    <router-link to="/" redirect="/login" ></router-link>-->
-    <router-link to="/login" >login</router-link>
-    <router-link to="/register">reg</router-link>
+    <!--    <router-link to="/" redirect="/login" ></router-link>-->
+    <router-link to="/account" >Account</router-link>
     <transition  mode="out-in">
         <router-view></router-view>
     </transition>
 </div>
 
+    <template id="tmp1">
+        <div>
+            <h1>This is MyAccount</h1>
+            <router-link to="/account/login">Login</router-link>
+            <router-link to="/account/register">Register</router-link>
+            <transition  mode="out-in">
+                <router-view></router-view>
+            </transition>
+        </div>
+    </template>
 
 <script>
-    var logincomp = {
-        template: '<h3>Login</h3>'
+    var account = {
+        template: '#tmp1'
     }
-    var registercomp = {
+    var register = {
         template: '<h3>register</h3>'
     }
 
-//router object instan for template through components
+    var login = {
+        template: '<h3>login</h3>'
+    }
+
+    //router object instan for template through components
 
     var routeObj = new VueRouter({
-        routes: [
-            {path:'/login',component: logincomp},
-            {path:'/register',component:registercomp}],
-        linkActiveClass: 'myclass'
+        routes: [{
+            path:'/account',
+            component: account,
+            children:[
+                {path:'/login',component:login},
+                {path:'register',component: register}
+            ]
+            }],
+            // linkActiveClass: 'myclass',
     })
 
     var vm1 = new Vue({
